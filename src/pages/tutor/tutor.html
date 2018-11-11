@@ -1,0 +1,33 @@
+<!--
+  Generated template for the TutorPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Tutor</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  {{tutor.Apellidos_Nombres}}
+  <p> Hijos: {{hijos.length}}</p>
+  <ion-list>
+    <button ion-item *ngFor="let hijo of hijos" (click)="irPaginaHijo(hijo)">
+      <!-- <ion-avatar item-start>
+        <img [src]="user.picture.medium">
+      </ion-avatar> -->
+      <h2>{{ hijo.Apellidos_Nombres | uppercase }}</h2>
+      <p>Trayecto :{{ hijo.horario.trayecto.descripcion }}</p>
+      <p>Division :{{hijo.horario.division.descripcion}}</p>
+      <p>Turno :{{ hijo.horario.turno === null ? ' ' : hijo.horario.turno.descripcion }}</p>
+      <p>dia :{{ hijo.horario.dia }}</p>
+      <p>horaEntrada:{{ hijo.horario.horarioEntrada }} horaSalida:{{ hijo.horario.horarioSalida }}</p>
+      <p>Cant. Notificaciones : {{hijo.notificaciones.length}}</p>
+    </button>
+  </ion-list>
+</ion-content>

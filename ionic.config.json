@@ -1,0 +1,13 @@
+{
+  "name": "AppRestApi",
+  "integrations": {
+    "cordova": {}
+  },
+  "proxies": [
+    {
+      "path": "*/",
+      "proxyUrl": "http://40.0.0.211:3000"
+    }
+  ],
+  "type": "ionic-angular"
+}

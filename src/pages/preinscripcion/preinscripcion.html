@@ -1,0 +1,208 @@
+<!--
+  Generated template for the RegistroPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Preinscripcion</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="miFormulario" (ngSubmit)="guardar()">
+    <ion-list>
+      <!-- TURNO ok-->
+      <ion-item>
+        <ion-icon name="alarm" item-start></ion-icon>
+        <ion-label stacked>Turno:</ion-label>
+        <ion-select formControlName="turno" cancelText="Cancelar" okText="Ok">
+          <ion-option *ngFor="let turno of turnos" value={{turno.id}}>{{turno.descripcion}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.turno">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('turno').hasError(validation.type) && (miFormulario.get('turno').dirty || miFormulario.get('turno').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- APELLIDO Y NOMBRE ok-->
+      <ion-item>
+        <ion-icon name="person" item-start></ion-icon>
+        <ion-label stacked>Apellido y Nombre:</ion-label>
+        <ion-input formControlName="apellidoYNombre" type="text" placeholder="Nombre Y Apellido"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.apellidoYNombre">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('apellidoYNombre').hasError(validation.type) && (miFormulario.get('apellidoYNombre').dirty || miFormulario.get('apellidoYNombre').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- DNI ok-->
+      <ion-item>
+        <ion-icon name="person" item-start></ion-icon>
+        <ion-label stacked>DNI:</ion-label>
+        <ion-input formControlName="dni" type="number" placeholder="DNI"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.dni">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('dni').hasError(validation.type) && (miFormulario.get('dni').dirty || miFormulario.get('dni').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- FECHA DE NACIMIENTO ok-->
+      <ion-item>
+        <ion-icon name="calendar" item-start></ion-icon>
+        <ion-label stacked>Fecha Nacimiento:</ion-label>
+        <ion-datetime formControlName="fechaNacimiento" displayFormat="DD-MM-YYYY" pickerFormat="DD/MM/YYYY" min="1986-03-14" max="2100-12-09" cancelText="Cancelar" doneText="Ok"></ion-datetime>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.fechaNacimiento">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('fechaNacimiento').hasError(validation.type) && (miFormulario.get('fechaNacimiento').dirty || miFormulario.get('fechaNacimiento').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- NACIONALIDAD ok -->
+      <ion-item>
+        <ion-icon name="globe" item-start></ion-icon>
+        <ion-label stacked>Nacionalidad:</ion-label>
+        <ion-select [(ngModel)]="nacionalidad" formControlName="nacionalidad" cancelText="Cancelar" okText="Ok" (ionChange)="cargarProvincias()">
+          <ion-option *ngFor="let nacionalidad of nacionalidades" value={{nacionalidad.id}}>{{nacionalidad.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.nacionalidad">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('nacionalidad').hasError(validation.type) && (miFormulario.get('nacionalidad').dirty || miFormulario.get('nacionalidad').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- PROVINCIA ok-->
+      <ion-item>
+        <ion-icon name="map" item-start></ion-icon>
+        <ion-label stacked>Provincia:</ion-label>
+        <ion-select [(ngModel)]="provincia" formControlName="provincia" cancelText="Cancelar" okText="Ok" (ionChange)="cargarDepartamentos()">
+          <ion-option *ngFor="let provincia of provincias" value={{provincia.id}}>{{provincia.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.provincia">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('provincia').hasError(validation.type) && (miFormulario.get('provincia').dirty || miFormulario.get('provincia').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- DEPARTAMENTO ok-->
+      <ion-item>
+        <ion-icon name="ios-navigate" item-start></ion-icon>
+        <ion-label stacked>Departamento:</ion-label>
+        <ion-select formControlName="departamento" cancelText="Cancelar" okText="Ok" (ionChange)="cargarLocalidades()">
+          <ion-option *ngFor="let departamento of departamentos" value={{departamento.id}}>{{departamento.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.departamento">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('departamento').hasError(validation.type) && (miFormulario.get('departamento').dirty || miFormulario.get('departamento').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- LOCALIDAD ok-->
+      <ion-item>
+        <ion-icon name="pin" item-start></ion-icon>
+        <ion-label stacked>Localidad:</ion-label>
+        <ion-select formControlName="localidad" cancelText="Cancelar" okText="Ok">
+          <ion-option *ngFor="let localidad of localidades" value={{localidad.id}}>{{localidad.nombre}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.localidad">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('localidad').hasError(validation.type) && (miFormulario.get('localidad').dirty || miFormulario.get('localidad').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- DIRECCION ok-->
+      <ion-item>
+        <ion-icon name="home" item-start></ion-icon>
+        <ion-label stacked>Dirección:</ion-label>
+        <ion-input formControlName="direccion" type="text" placeholder="Dirección"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.direccion">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('direccion').hasError(validation.type) && (miFormulario.get('direccion').dirty || miFormulario.get('direccion').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- APELLIDO Y NOMBRE TUTOR ok -->
+      <ion-item>
+        <ion-icon name="ios-contacts" item-start></ion-icon>
+        <ion-label stacked>Apellido y Nombre Tutor:</ion-label>
+        <ion-input formControlName="apellidoYNombreTutor" type="text" placeholder="Apellido Y Nombre Tutor"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.apellidoYNombreTutor">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('apellidoYNombreTutor').hasError(validation.type) && (miFormulario.get('apellidoYNombreTutor').dirty || miFormulario.get('apellidoYNombreTutor').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- DNI ok-->
+      <ion-item>
+        <ion-icon name="ios-contacts" item-start></ion-icon>
+        <ion-label stacked>DNI Tutor:</ion-label>
+        <ion-input formControlName="dniTutor" type="number" placeholder="DNI Tutor"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.dni">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('dniTutor').hasError(validation.type) && (miFormulario.get('dniTutor').dirty || miFormulario.get('dniTutor').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- EMAIL ok-->
+      <ion-item>
+        <ion-icon name="ios-at-outline" item-start></ion-icon>
+        <ion-label stacked>Email de Contacto:</ion-label>
+        <ion-input formControlName="email" type="email" placeholder="Email"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.email">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('email').hasError(validation.type) && (miFormulario.get('email').dirty || miFormulario.get('email').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- TEL DE CONTACTO ok-->
+      <ion-item>
+        <ion-icon name="md-call" item-start></ion-icon>
+        <ion-label stacked>Tel de Contacto:</ion-label>
+        <ion-input formControlName="tel" type="text" placeholder="Teléfono"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.tel">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('tel').hasError(validation.type) && (miFormulario.get('tel').dirty || miFormulario.get('tel').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
+      <!-- OBSERVACIONES -->
+      <ion-item>
+        <ion-icon name="ios-create-outline" item-start></ion-icon>
+        <ion-label stacked>Observaciones:</ion-label>
+        <ion-textarea formControlName="observacion" placeholder="Enter a description"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button ion-button block type="submit" >Guardar</button>
+    </div>
+  </form>
+</ion-content>

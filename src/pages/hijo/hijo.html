@@ -1,0 +1,34 @@
+<!--
+  Generated template for the HijoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>hijo</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  {{hijo.Apellidos_Nombres}}
+  <!-- muestro el tamanio de la coleccion de notificaiones del hijo -->
+  <p> Notificaciones: {{hijo.notificaciones.length}}</p>
+  <ion-list>
+    <!-- recorro y muestro la coleccion de notificaciones del hijo -->
+    <button ion-item *ngFor="let notificacion of hijo.notificaciones">
+      <h2>{{ notificacion.descripcion | uppercase }}</h2>
+    </button>
+  </ion-list>
+  <!-- muestro el tamanio de la coleccion de observaciones del hijo -->
+  <p> Observaciones: {{hijo.observaciones.length}}</p>
+  <ion-list>
+    <!-- recorro y muestro la coleccion de observaciones del hijo -->
+    <button ion-item *ngFor="let observacion of hijo.observaciones">
+      <h2>{{ observacion.detalle | uppercase }}</h2>
+    </button>
+  </ion-list>
+</ion-content>
