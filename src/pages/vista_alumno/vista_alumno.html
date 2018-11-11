@@ -1,0 +1,140 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      Alumno
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding style="background:url(assets/img/7oIH7mzQ6erCX5ww1Xgy_fondo_acceso.jpg) no-repeat center;background-size:cover;" id="page10">
+  <ion-list id="vista_alumno-list6">
+    <ion-item color="none" id="vista_alumno-list-item12">
+      <ion-thumbnail item-left>
+      <img src="{{ hijo.Foto === null ? 'assets/img/KK7gJUC5SciZT7dSL7rk_foto_perfil.jpg' : hijo.Foto }}" />
+      </ion-thumbnail>
+      <h2>
+        {{hijo.Apellidos_Nombres}}
+      </h2>
+    </ion-item>
+  </ion-list>
+  <div id="vista_alumno-container1">
+    <ion-list id="vista_alumno-list8">
+      <ion-item color="none" id="vista_alumno-list-item16">
+        DNI: {{hijo.Dni}}
+      </ion-item>
+      <ion-item color="none" id="vista_alumno-list-item19">
+        Fecha de Nacimiento: {{hijo.Fecha_Nac}}
+      </ion-item>
+      <ion-item color="none" id="vista_alumno-list-item10">
+        Trayecto: {{ hijo.horario.trayecto.descripcion }}
+      </ion-item>
+      <ion-item color="none" id="vista_alumno-list-item10">
+        Division: {{hijo.horario.division.descripcion}}
+      </ion-item>
+      <ion-item color="none" id="vista_alumno-list-item11">
+        Turno: {{ hijo.horario.turno === null ? ' ' : hijo.horario.turno.descripcion }}
+      </ion-item>
+      <ion-item color="none" id="vista_alumno-list-item13">
+        Dia: {{hijo.horario.dia}}
+      </ion-item>
+
+      <ion-item color="none" id="vista_alumno-list-item13">
+        horario entrada:{{ hijo.horario.horarioEntrada }}    -  horario salida: {{ hijo.horario.horarioSalida }}
+      </ion-item>
+  </ion-list>
+</div>
+  <div style="background-color: darkgray"><h2>NOTIFICACIONES:</h2></div>
+  <div style="overflow-y: scroll; height:30%;">
+  <ion-card>
+  <ion-card-header> 
+  </ion-card-header>
+  <ion-list id="vista_Tutor-list2">
+  <button ion-item *ngFor="let notificacion of hijo.notificaciones" (click)="irPaginaNotificaciones(notificacion)">
+  <ion-thumbnail item-left>
+  <img src="assets/img/logo_notif.png">
+  </ion-thumbnail>
+  <ion-card-content>
+  <h2>{{notificacion.titulo | uppercase }}</h2>
+  <p>{{notificacion.descripcion}}</p>
+  <p>{{notificacion.Fecha_actualizacion}}</p>
+  </ion-card-content>
+  </button>
+  </ion-list>
+  </ion-card>
+</div>
+<div style="height:3%"></div>
+        <div style="background-color:darkkhaki"><h2>OBSERVACIONES:</h2></div>
+        <div style="overflow-y: scroll; height:30%;">
+       <ion-card>
+        <ion-card-header>
+        </ion-card-header>
+        <ion-list>
+        <button ion-item *ngFor="let observacion of hijo.observaciones" (click)="irPaginaObservaciones(observacion)">
+         <ion-thumbnail item-start>
+           <img src="assets/img/logo_observ.png">
+          </ion-thumbnail>
+          <ion-card-content>  
+          <h2>{{ observacion.titulo | uppercase}}</h2>
+            <p>{{ observacion.detalle}}</p>
+            <h2>{{ observacion.Fecha_Actualizacion}}</h2>
+          </ion-card-content>   
+          </button>
+        </ion-list>
+          </ion-card>
+        </div>
+        <div style="height:3%"></div>
+          <div style="background-color:cornflowerblue">
+          <h2>CONTENIDOS DEL TRAYECTO</h2>
+        </div>
+          <div>
+          <iframe width="100%" height="30%" [src]="documento" frameborder="0" allowfullscreen></iframe>
+          </div>
+
+          <div padding>
+            <ion-segment [(ngModel)]="tabs">
+              <ion-segment-button value="kittens">
+                Kittens
+              </ion-segment-button>
+              <ion-segment-button value="puppies">
+                Puppies
+              </ion-segment-button>
+              <ion-segment-button value="tumina">
+                tugata
+              </ion-segment-button>
+            </ion-segment>
+          </div>
+          
+          <div [ngSwitch]="tabs">
+            <ion-list *ngSwitchCase="'puppies'">
+              <ion-item>
+                <ion-thumbnail item-start>
+                  <img src="img/thumbnail-puppy-1.jpg">
+                </ion-thumbnail>
+                <h2>Ruby</h2>
+              </ion-item>
+              ...
+            </ion-list>
+          
+            <ion-list *ngSwitchCase="'kittens'">
+              <ion-item>
+                <ion-thumbnail item-start>
+                  <img src="img/thumbnail-kitten-1.jpg">
+                </ion-thumbnail>
+                <h2>Luna</h2>
+              </ion-item>
+              ...
+            </ion-list>
+
+            <ion-list *ngSwitchCase="'tugata'">
+              <ion-item>
+                <ion-thumbnail item-start>
+                  <img src="img/thumbnail-puppy-1.jpg">
+                </ion-thumbnail>
+                <h2>tuga</h2>
+              </ion-item>
+              ...
+            </ion-list>
+          </div>
+</ion-content>

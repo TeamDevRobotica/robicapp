@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-
 /*
   Generated class for the RestApiProvider provider.
 
@@ -15,9 +14,36 @@ export class RestApiProvider {
         console.log('Hello RestApiProvider Provider');
     }
 
+    getUsuarios() {
+        return new Promise(resolve => {
+            //this.http.get('http://portalandresito.gov.ar:50000/users').subscribe(data => {
+                this.http.get('educaciondigitalmisiones.com:50000').subscribe(data => {
+                resolve(data);
+                console.log(data);
+            }, err => {
+                console.log(err);
+            });
+        });
+    }
+    
+    getUsuario(usuario, clave) {
+        return new Promise(resolve => {
+            this.http.get('http://educaciondigitalmisiones.com:50000/loguin/' + usuario + '/' + clave).subscribe(data => {
+            //this.http.get('http://portalandresito.gov.ar:50000/loguin/' + usuario + '/' + clave).subscribe(data => {
+                //Si data no tiene keys(usuario o clave incorrectas) devuelve null
+                if (Object.keys(data).length <= 0) {
+                    return null;
+                }
+                resolve(data);
+                console.log(data);
+            }, err => {
+                console.log(err);
+            });
+        });
+    }
     getTurnos(){
         return new Promise(resolve => {
-            this.http.get('http://localhost:3000/turno').subscribe(data => {
+            this.http.get('http://educaciondigitalmisiones.com:50000/turno').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -27,7 +53,7 @@ export class RestApiProvider {
 
     getPaises(){
         return new Promise(resolve => {
-            this.http.get('http://localhost:3000/pais').subscribe(data => {
+            this.http.get('http://educaciondigitalmisiones.com:50000/pais').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -37,7 +63,7 @@ export class RestApiProvider {
 
     getProvincias(/* idPais */){
         return new Promise(resolve => {
-            this.http.get('http://localhost:3000/provincia'/* +idPais */).subscribe(data => {
+            this.http.get('educaciondigitalmisiones.com:50000/provincia'/* +idPais */).subscribe(data => {
                 console.log("getprovincias(idpais) ",data);
                 resolve(data);
             }, err => {
@@ -48,7 +74,7 @@ export class RestApiProvider {
 
     getDepartamentos(){
         return new Promise(resolve => {
-            this.http.get('http://localhost:3000/departamento').subscribe(data => {
+            this.http.get('educaciondigitalmisiones.com:50000/departamento').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -58,31 +84,7 @@ export class RestApiProvider {
 
     getLocalidades(){
         return new Promise(resolve => {
-            this.http.get('http://localhost:3000/localidad').subscribe(data => {
-                resolve(data);
-            }, err => {
-                console.log(err);
-            });
-        });
-    }
-
-    getUsuarios() {
-        return new Promise(resolve => {
-            this.http.get('http://localhost:3000/users').subscribe(data => {
-                resolve(data);
-            }, err => {
-                console.log(err);
-            });
-        });
-    }
-
-    getUsuario(usuario, clave) {
-        return new Promise(resolve => {
-            this.http.get('http://40.0.0.211:3000/loguin/' + usuario + '/' + clave).subscribe(data => {
-                //Si data no tiene keys(usuario o clave incorrectas) devuelve null
-                if (Object.keys(data).length <= 0) {
-                    return null;
-                }
+            this.http.get('educaciondigitalmisiones.com:50000/localidad').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -92,7 +94,7 @@ export class RestApiProvider {
 
     guardarPreInscripcion(data) {
         return new Promise((resolve, reject) => {
-            this.http.post('http://localhost:3000/preinscripcion', data)
+            this.http.post('educaciondigitalmisiones.com:50000/preinscripcion', data)
                 .subscribe(res => {
                     resolve(res);
                 }, (err) => {
@@ -104,7 +106,7 @@ export class RestApiProvider {
     registrarUsuario(data){
         console.log(data);
         return new Promise((resolve, reject) => {
-            this.http.post('http://localhost:3000/users', data)
+            this.http.post('educaciondigitalmisiones.com:50000/users', data)
                 .subscribe(res => {
                     resolve(res);
                 }, (err) => {
@@ -112,5 +114,7 @@ export class RestApiProvider {
                 });
         });
     }
+
+   
 
 }

@@ -16,7 +16,7 @@
 <ion-content padding>
   {{hijo.Apellidos_Nombres}}
   <!-- muestro el tamanio de la coleccion de notificaiones del hijo -->
-  <p> Notificaciones: {{hijo.notificaciones.length}}</p>
+  <p> cant. Notificaciones: {{hijo.notificaciones.length}}</p>
   <ion-list>
     <!-- recorro y muestro la coleccion de notificaciones del hijo -->
     <button ion-item *ngFor="let notificacion of hijo.notificaciones">

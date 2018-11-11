@@ -2,7 +2,8 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { RestApiProvider } from '../../providers/rest-api/rest-api';
 import { AdminPage } from '../admin/admin';
-import { TutorPage } from '../tutor/tutor';
+//import { TutorPage } from '../tutor/tutor';
+import { Vista_TutorPage } from '../vista_tutor/vista_tutor';
 
 /**
  * Generated class for the LoguinPage page.
@@ -28,10 +29,6 @@ export class LoguinPage {
     }
 
     ionViewDidLoad() {
-        console.log('ionViewDidLoad LoguinPage');
-        this.restApi.getUsuarios().then(data => {
-            this.usuarios = data;
-        });
     }
 
 
@@ -42,21 +39,6 @@ export class LoguinPage {
             this.validaringreso(this.usuario[0].nivel.descripcion);
         });
 
-        // // //Metodo para users.json
-        // const usuario = this.usuarioYClaveCorrecta();
-        // if (usuario) {
-        //     console.log("Usuario correcto");
-        //     if (Object.is(usuario.tipoUsuario.tipo, "Admin")) {
-        //         console.log(usuario.tipoUsuario.tipo);
-        //         this.navCtrl.push(AdminPage);
-        //     } else {
-        //         console.log(usuario.tipoUsuario.tipo);
-        //         this.navCtrl.push(TutorPage, { tutor: usuario.tutor, hijos: usuario.tutor.hijos });
-        //     }
-
-        // } else {
-        //     console.log("Usuario incorrecto");
-        // }
     }
 
     validaringreso(NivelUser) {
@@ -66,12 +48,13 @@ export class LoguinPage {
             this.navCtrl.push(AdminPage);
         } else {
             console.log("Usuario Tutor " + this.usuario[0].tutor.Apellidos_Nombres);
-            this.navCtrl.push(TutorPage, { tutor: this.usuario[0].tutor, hijos: this.usuario[0].tutor.hijos });
+            this.navCtrl.push(Vista_TutorPage, { tutor: this.usuario[0].tutor, hijos: this.usuario[0].tutor.hijos });
         }
     }
 
     //No se utiliza
     //Comprueba y devuelve un usuario por usuario y clave
+    /*
     usuarioYClaveCorrecta() {
         for (const key in this.usuarios) {
             console.log('Key ' + key);
@@ -83,8 +66,9 @@ export class LoguinPage {
                 }
             }
         }
+        
         return null;
-    }
+*/
+ }
 
-}
 

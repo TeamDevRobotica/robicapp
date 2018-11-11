@@ -5,8 +5,8 @@
   },
   "proxies": [
     {
-      "path": "*/",
-      "proxyUrl": "http://40.0.0.211:3000"
+      "path": "*/users",
+      "proxyUrl": "http://40.0.0.211:3000/users"
     }
   ],
   "type": "ionic-angular"
