@@ -73,7 +73,7 @@
       <ion-item>
         <ion-icon name="globe" item-start></ion-icon>
         <ion-label stacked>Nacionalidad:</ion-label>
-        <ion-select [(ngModel)]="nacionalidad" formControlName="nacionalidad" cancelText="Cancelar" okText="Ok" (ionChange)="cargarProvincias()">
+        <ion-select [(ngModel)]="nacionalidad" formControlName="nacionalidad" cancelText="Cancelar" okText="Ok" (ionChange)="cargarProvincias(nacionalidad)">
           <ion-option *ngFor="let nacionalidad of nacionalidades" value={{nacionalidad.id}}>{{nacionalidad.nombre}}</ion-option>
         </ion-select>
       </ion-item>
@@ -88,7 +88,7 @@
       <ion-item>
         <ion-icon name="map" item-start></ion-icon>
         <ion-label stacked>Provincia:</ion-label>
-        <ion-select [(ngModel)]="provincia" formControlName="provincia" cancelText="Cancelar" okText="Ok" (ionChange)="cargarDepartamentos()">
+        <ion-select [(ngModel)]="provincia" formControlName="provincia" cancelText="Cancelar" okText="Ok" (ionChange)="cargarDepartamentos(provincia)">
           <ion-option *ngFor="let provincia of provincias" value={{provincia.id}}>{{provincia.nombre}}</ion-option>
         </ion-select>
       </ion-item>

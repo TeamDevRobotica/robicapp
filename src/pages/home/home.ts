@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { RestApiProvider } from '../../providers/rest-api/rest-api';
 import { LoguinPage } from '../loguin/loguin';
 import { RegistroPage } from '../registro/registro';
-import { PreinscripcionPage } from '../preinscripcion/preinscripcion';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -19,9 +19,6 @@ export class HomePage {
   }
   registro() {
     this.navCtrl.push(RegistroPage);
-  }
-  preinscripcion() {
-    this.navCtrl.push(PreinscripcionPage);
   }
 
 }
