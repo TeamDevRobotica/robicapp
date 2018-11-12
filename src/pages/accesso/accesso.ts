@@ -4,6 +4,7 @@ import { RegistroPage } from '../registro/registro';
 import { LoguinPage } from '../loguin/loguin';
 import { Vista_informacionPage } from '../vista_informacion/vista_informacion';
 import { Vista_preguntasPage } from '../vista_preguntas/vista_preguntas';
+import { PreinscripcionPage } from '../preinscripcion/preinscripcion';
 
 @Component({
   selector: 'page-accesso',
@@ -28,5 +29,8 @@ export class AccessoPage {
   goToVista_preguntas(params){
     if (!params) params = {};
     this.navCtrl.push(Vista_preguntasPage);
+  }
+  goToPreinscripcion(){
+    this.navCtrl.push(PreinscripcionPage);
   }
 }
