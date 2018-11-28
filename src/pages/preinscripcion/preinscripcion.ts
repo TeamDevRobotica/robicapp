@@ -3,6 +3,8 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { RestApiProvider } from '../../providers/rest-api/rest-api';
 import { HomePage } from '../home/home';
+import { AccessoPage } from '../accesso/accesso';
+
 
 /**
  * Generated class for the PreinscripcionPage page.
@@ -18,13 +20,17 @@ import { HomePage } from '../home/home';
 })
 export class PreinscripcionPage {
   miFormulario: FormGroup;
-  
+
   turnos : any;
   nacionalidades : any;
   provincias : any;
   departamentos : any;
-  localidades : any; 
- 
+  localidades : any;
+
+  indicePais : any;
+  indiceProvincia : any;
+  indiceDepartamento : any;
+
   validation_messages = {
     'turno': [
       { type: 'required', message: 'El turno es requerido' }
@@ -65,7 +71,8 @@ export class PreinscripcionPage {
     ],
     'email': [
       { type: 'required', message: 'El email es requerido' },
-      { type: 'email', message: 'El email no tiene el formato' }
+      { type: 'email', message: 'El email no tiene el formato' },
+      { type: 'pattern', message: 'No cumple con el formato de email.' }
     ],
     'tel': [
       { type: 'required', message: 'El tel es requerido' }
@@ -77,7 +84,11 @@ export class PreinscripcionPage {
         this.turnos = data;
     });
     this.restApi.getPaises().then(data => {
+      console.log(data);
       this.nacionalidades = data;
+      /*this.provincias = this.nacionalidades[0]['provincias'];
+      this.departamentos =this.nacionalidades[0]['provincias'][0]['departamentos'];
+      this.localidades =this.nacionalidades[0]['provincias'][0]['departamentos'][0]['localidades'];*/
     });
     this.miFormulario = this.crearFormulario();
   }
@@ -87,27 +98,20 @@ export class PreinscripcionPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad PreinscripcionPage');
   }
-
-  cargarProvincias(idPais){
-    this.restApi.getProvincias(/* idPais */).then(data => {
-      this.provincias = data;
-/*       console.log("cambiar provincia ", this.provincias);
-      console.log("idPais ",idPais); */
-    });
+  //CARGA LAS PROVINCIAS EN EL SELECT
+  cargarProvincias(){
+    this.indicePais = this.miFormulario.get('nacionalidad').value - 1;
+    this.provincias = this.nacionalidades[this.indicePais]['provincias'];
   }
-
-  cargarDepartamentos(idprovincia){
-    this.restApi.getDepartamentos().then(data => {
-      this.departamentos = data;
-      console.log("cambiar departamento ", this.departamentos);
-    });
+  //CARGA LOS DEPARTAMENTOS EN EL SELECT
+  cargarDepartamentos(){
+    this.indiceProvincia = this.miFormulario.get('provincia').value - 1;
+    this.departamentos =this.nacionalidades[this.indicePais]['provincias'][this.indiceProvincia]['departamentos'];
   }
 
   cargarLocalidades(){
-    this.restApi.getLocalidades().then(data => {
-      this.localidades = data;
-      console.log("cambiar localidades ", this.localidades);
-    });
+    this.indiceDepartamento = this.miFormulario.get('departamento').value - 1;
+    this.localidades =this.nacionalidades[this.indicePais]['provincias'][this.indiceProvincia]['departamentos'][this.indiceDepartamento]['localidades'];
   }
 
   guardar() {
@@ -131,9 +135,9 @@ export class PreinscripcionPage {
       departamento: ['', Validators.required],
       localidad: ['', Validators.required],
       direccion: ['', Validators.required],
-      apellidoYNombreTutor: ['', Validators.compose([Validators.required, Validators.minLength(8), Validators.maxLength(30)])],
+      apellidoYNombreTutor: ['', Validators.compose([Validators.required])],
       dniTutor: ['', Validators.compose([Validators.required, Validators.maxLength(8)])],
-      email: ['', Validators.compose([Validators.required, Validators.email])],
+      email: ['', Validators.compose([Validators.required,Validators.pattern(`^[a-z0-9!#$%&'*+/=?^{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$`)])],
       tel: ['', Validators.required],
       observacion: [''],
     });
@@ -145,7 +149,7 @@ export class PreinscripcionPage {
       buttons: ['OK']
     });
     alert.present();
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(AccessoPage);
   }
 
 }

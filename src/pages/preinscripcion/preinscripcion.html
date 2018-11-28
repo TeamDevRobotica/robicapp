@@ -23,13 +23,13 @@
           <ion-option *ngFor="let turno of turnos" value={{turno.id}}>{{turno.descripcion}}</ion-option>
         </ion-select>
       </ion-item>
-      <div class="validation-errors" style="padding-left:100px">
+      <!-- <div class="validation-errors" style="padding-left:100px">
         <ng-container *ngFor="let validation of validation_messages.turno">
           <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('turno').hasError(validation.type) && (miFormulario.get('turno').dirty || miFormulario.get('turno').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
-      </div>
+      </div> -->
       <!-- APELLIDO Y NOMBRE ok-->
       <ion-item>
         <ion-icon name="person" item-start></ion-icon>
@@ -73,7 +73,7 @@
       <ion-item>
         <ion-icon name="globe" item-start></ion-icon>
         <ion-label stacked>Nacionalidad:</ion-label>
-        <ion-select [(ngModel)]="nacionalidad" formControlName="nacionalidad" cancelText="Cancelar" okText="Ok" (ionChange)="cargarProvincias(nacionalidad)">
+        <ion-select [(ngModel)]="nacionalidad" formControlName="nacionalidad" cancelText="Cancelar" okText="Ok" (ionChange)="cargarProvincias()">
           <ion-option *ngFor="let nacionalidad of nacionalidades" value={{nacionalidad.id}}>{{nacionalidad.nombre}}</ion-option>
         </ion-select>
       </ion-item>
@@ -88,7 +88,7 @@
       <ion-item>
         <ion-icon name="map" item-start></ion-icon>
         <ion-label stacked>Provincia:</ion-label>
-        <ion-select [(ngModel)]="provincia" formControlName="provincia" cancelText="Cancelar" okText="Ok" (ionChange)="cargarDepartamentos(provincia)">
+        <ion-select [(ngModel)]="provincia" formControlName="provincia" cancelText="Cancelar" okText="Ok" (ionChange)="cargarDepartamentos()">
           <ion-option *ngFor="let provincia of provincias" value={{provincia.id}}>{{provincia.nombre}}</ion-option>
         </ion-select>
       </ion-item>
@@ -202,7 +202,7 @@
       </ion-item>
     </ion-list>
     <div padding>
-      <button ion-button block type="submit" >Guardar</button>
+      <button ion-button block type="submit" [disabled]="!miFormulario.valid">Guardar</button>
     </div>
   </form>
 </ion-content>

@@ -9,15 +9,15 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class RestApiProvider {
-
+    // direccionurl = 'http://localhost:3000';
+    direccionurl = 'http://educaciondigitalmisiones.com:50000';
     constructor(public http: HttpClient) {
         console.log('Hello RestApiProvider Provider');
     }
 
     getUsuarios() {
         return new Promise(resolve => {
-            //this.http.get('http://portalandresito.gov.ar:50000/users').subscribe(data => {
-                this.http.get('educaciondigitalmisiones.com:50000').subscribe(data => {
+            this.http.get(this.direccionurl).subscribe(data => {
                 resolve(data);
                 console.log(data);
             }, err => {
@@ -28,7 +28,7 @@ export class RestApiProvider {
     
     getUsuario(usuario, clave) {
         return new Promise(resolve => {
-            this.http.get('http://educaciondigitalmisiones.com:50000/loguin/' + usuario + '/' + clave).subscribe(data => {
+            this.http.get(this.direccionurl + '/loguin/' + usuario + '/' + clave).subscribe(data => {
             //this.http.get('http://portalandresito.gov.ar:50000/loguin/' + usuario + '/' + clave).subscribe(data => {
                 //Si data no tiene keys(usuario o clave incorrectas) devuelve null
                 if (Object.keys(data).length <= 0) {
@@ -43,7 +43,7 @@ export class RestApiProvider {
     }
     getTurnos(){
         return new Promise(resolve => {
-            this.http.get('http://educaciondigitalmisiones.com:50000/turno').subscribe(data => {
+            this.http.get(this.direccionurl + '/turno').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -53,7 +53,7 @@ export class RestApiProvider {
 
     getPaises(){
         return new Promise(resolve => {
-            this.http.get('http://educaciondigitalmisiones.com:50000/pais').subscribe(data => {
+            this.http.get(this.direccionurl + '/pais').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -63,7 +63,7 @@ export class RestApiProvider {
 
     getProvincias(/* idPais */){
         return new Promise(resolve => {
-            this.http.get('educaciondigitalmisiones.com:50000/provincia'/* +idPais */).subscribe(data => {
+            this.http.get(this.direccionurl + '/provincia'/* +idPais */).subscribe(data => {
                 console.log("getprovincias(idpais) ",data);
                 resolve(data);
             }, err => {
@@ -74,7 +74,7 @@ export class RestApiProvider {
 
     getDepartamentos(){
         return new Promise(resolve => {
-            this.http.get('educaciondigitalmisiones.com:50000/departamento').subscribe(data => {
+            this.http.get(this.direccionurl + '/departamento').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -84,7 +84,7 @@ export class RestApiProvider {
 
     getLocalidades(){
         return new Promise(resolve => {
-            this.http.get('educaciondigitalmisiones.com:50000/localidad').subscribe(data => {
+            this.http.get(this.direccionurl + '/localidad').subscribe(data => {
                 resolve(data);
             }, err => {
                 console.log(err);
@@ -94,7 +94,7 @@ export class RestApiProvider {
 
     guardarPreInscripcion(data) {
         return new Promise((resolve, reject) => {
-            this.http.post('educaciondigitalmisiones.com:50000/preinscripcion', data)
+            this.http.post(this.direccionurl + '/preinscripcion', data)
                 .subscribe(res => {
                     resolve(res);
                 }, (err) => {
@@ -106,7 +106,7 @@ export class RestApiProvider {
     registrarUsuario(data){
         console.log(data);
         return new Promise((resolve, reject) => {
-            this.http.post('educaciondigitalmisiones.com:50000/users', data)
+            this.http.post(this.direccionurl + '/users', data)
                 .subscribe(res => {
                     resolve(res);
                 }, (err) => {

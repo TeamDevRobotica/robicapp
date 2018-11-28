@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { RestApiProvider } from '../../providers/rest-api/rest-api';
 import { HomePage } from '../home/home';
+import { AccessoPage } from '../accesso/accesso';
 
 /**
  * Generated class for the RegistroPage page.
@@ -24,19 +25,26 @@ export class RegistroPage {
   validardatos:any;
   validation_messages = {
     'apellidoYNombre': [
-      { type: 'required', message: 'El apellido y nombre es requerido' }
+      { type: 'required', message: 'El apellido y nombre es requerido.' },
+      { type: 'maxlength', message: 'Longitud maxima 50 caracteres.' }      
     ],
     'dni': [
-      { type: 'required', message: 'El dni es requerido' }
+      { type: 'required', message: 'El dni es requerido.' },
+      { type: 'maxlength', message: 'Longitud maxima 8.' },
+      { type: 'minlength', message: 'Longitud minima 8.' }
     ],
     'usuario': [
       { type: 'required', message: 'El Usuario es requerido.' },
-      { type: 'minlength', message: 'El Usuario necesita 8 caracteres como minimo.' },
       { type: 'maxlength', message: 'El Usuario contienen mas de 30 caracteres.' }
     ],
-    'passwordRetry': [
-      { type: 'required', message: 'El turno es requerido' }
-    ]  
+    'password':[
+      { type: 'required', message: 'La contraseña es requerida' }
+    ],
+    'passwordConfirmation':[
+      { type: 'required', message: 'La Confirmacion es requerida.' },
+      { type: 'equalTo', message: 'Las contraseñas no coinciden.' }
+      
+    ]
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public restApi: RestApiProvider, public alertCtrl: AlertController) {
@@ -48,17 +56,12 @@ export class RegistroPage {
   }
 
   guardar() {
-    this.Pass=this.miFormulario.get('passwordRetry.password').value;
-    this.PassConf=this.miFormulario.get('passwordRetry.passwordConfirmation').value;
-    this.validardatos = this.validar(this.Pass,this.PassConf)
-
-    if (this.validardatos){
       this.datos = [
         {
           "apellidoYNombre" : this.miFormulario.get('apellidoYNombre').value,
           "dni" : this.miFormulario.get('dni').value,
-          "nombreUsuario" : this.miFormulario.get('dni').value,
-          "claveUsuario" : this.miFormulario.get('passwordRetry.password').value
+          "nombreUsuario" : this.miFormulario.get('usuario').value,
+          "claveUsuario" : this.miFormulario.get('password').value
         }
       ];
       this.restApi.registrarUsuario(this.datos).then(result => {
@@ -67,36 +70,29 @@ export class RegistroPage {
         console.log(err);
       });
       this.registroCorrecto();
-    }else{
-      this.passIncorrecto();
-    }
   }
 
-validar(pass, passconf){
-  if (pass==passconf){
-    return true;
-  }else{
-    return false;
-  }
-}
   private crearFormulario() {
     return this.formBuilder.group({
-      apellidoYNombre: ['', Validators.compose([Validators.required, Validators.maxLength(8), Validators.maxLength(30)])],
-      dni: ['', Validators.required],
-      usuario: ['', Validators.compose([Validators.required, Validators.maxLength(8), Validators.maxLength(30)])],
-      passwordRetry: this.formBuilder.group({
-        password: ['', Validators.required],
-        passwordConfirmation: ['', Validators.required]
-      }),
+      'apellidoYNombre': ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
+      'dni': ['', Validators.compose([Validators.required])],
+      'usuario': ['', Validators.compose([Validators.required, Validators.maxLength(30)])],
+      /* 'passwordRetry': this.formBuilder.group({ */
+        'password': ['', Validators.required],
+        'passwordConfirmation': ['', Validators.compose([Validators.required, this.equalto('password')])]
+      /* }) */
     });
   }
 
-  passIncorrecto() {
-    const alert = this.alertCtrl.create({
-      title: 'Las contraseñas no coinciden!',
-      buttons: ['OK']
-    });
-    alert.present();
+  equalto(field_name): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } => {
+        let input = control.value;
+        let isValid = control.root.value[field_name] == input;
+        if (!isValid)
+            return {'equalTo': {isValid}};
+        else
+            return null;
+    };
   }
 
   registroCorrecto() {
@@ -106,6 +102,6 @@ validar(pass, passconf){
       buttons: ['OK']
     });
     alert.present();
-    this.navCtrl.push(HomePage);
+    this.navCtrl.push(AccessoPage);
   }
 }
