@@ -12,13 +12,16 @@ export class PrincipalPage {
 
   constructor(public navCtrl: NavController) {
   }
-  goToAccesso(params){
+
+  goToAccesso(params) {
     if (!params) params = {};
     this.navCtrl.push(AccessoPage);
-  }goToSignup(params){
+  }
+  goToSignup(params) {
     if (!params) params = {};
     this.navCtrl.push(SignupPage);
-  }goToLogin(params){
+  }
+  goToLogin(params) {
     if (!params) params = {};
     this.navCtrl.push(LoginPage);
   }

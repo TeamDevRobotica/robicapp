@@ -14,14 +14,14 @@ import { HomePage } from '../home/home';
 @Component({
   selector: 'page-registro',
   templateUrl: 'registro.html',
-  
+
 })
 export class RegistroPage {
-  Pass:any;
-  PassConf:any;
+  Pass: any;
+  PassConf: any;
   miFormulario: FormGroup;
-  datos : any;
-  validardatos:any;
+  datos: any;
+  validardatos: any;
   validation_messages = {
     'apellidoYNombre': [
       { type: 'required', message: 'El apellido y nombre es requerido' }
@@ -36,7 +36,7 @@ export class RegistroPage {
     ],
     'passwordRetry': [
       { type: 'required', message: 'El turno es requerido' }
-    ]  
+    ]
   }
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public formBuilder: FormBuilder, public restApi: RestApiProvider, public alertCtrl: AlertController) {
@@ -48,17 +48,17 @@ export class RegistroPage {
   }
 
   guardar() {
-    this.Pass=this.miFormulario.get('passwordRetry.password').value;
-    this.PassConf=this.miFormulario.get('passwordRetry.passwordConfirmation').value;
-    this.validardatos = this.validar(this.Pass,this.PassConf)
+    this.Pass = this.miFormulario.get('passwordRetry.password').value;
+    this.PassConf = this.miFormulario.get('passwordRetry.passwordConfirmation').value;
+    this.validardatos = this.validar(this.Pass, this.PassConf)
 
-    if (this.validardatos){
+    if (this.validardatos) {
       this.datos = [
         {
-          "apellidoYNombre" : this.miFormulario.get('apellidoYNombre').value,
-          "dni" : this.miFormulario.get('dni').value,
-          "nombreUsuario" : this.miFormulario.get('dni').value,
-          "claveUsuario" : this.miFormulario.get('passwordRetry.password').value
+          "apellidoYNombre": this.miFormulario.get('apellidoYNombre').value,
+          "dni": this.miFormulario.get('dni').value,
+          "nombreUsuario": this.miFormulario.get('dni').value,
+          "claveUsuario": this.miFormulario.get('passwordRetry.password').value
         }
       ];
       this.restApi.registrarUsuario(this.datos).then(result => {
@@ -67,18 +67,19 @@ export class RegistroPage {
         console.log(err);
       });
       this.registroCorrecto();
-    }else{
+    } else {
       this.passIncorrecto();
     }
   }
 
-validar(pass, passconf){
-  if (pass==passconf){
-    return true;
-  }else{
-    return false;
+  validar(pass, passconf) {
+    if (pass == passconf) {
+      return true;
+    } else {
+      return false;
+    }
   }
-}
+
   private crearFormulario() {
     return this.formBuilder.group({
       apellidoYNombre: ['', Validators.compose([Validators.required, Validators.maxLength(8), Validators.maxLength(30)])],
@@ -108,4 +109,5 @@ validar(pass, passconf){
     alert.present();
     this.navCtrl.push(HomePage);
   }
+
 }
