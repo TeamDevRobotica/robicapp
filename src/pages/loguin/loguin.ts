@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { RestApiProvider } from '../../providers/rest-api/rest-api';
 import { AdminPage } from '../admin/admin';
 //import { TutorPage } from '../tutor/tutor';
@@ -25,50 +25,54 @@ export class LoguinPage {
     usuarios: any;
     usuario: any;
 
-    constructor(public navCtrl: NavController, public navParams: NavParams, public restApi: RestApiProvider) {
+    constructor(public navCtrl: NavController, public navParams: NavParams, public restApi: RestApiProvider, public alertCtrl: AlertController) {
     }
 
     ionViewDidLoad() {
     }
 
 
+    passIncorrecto() {
+        const alert = this.alertCtrl.create({
+            title: 'Usuario incorrecto!',
+            buttons: ['OK']
+        });
+        alert.present();
+    }
+
     login() {
         //Metodo para devolver un solo usuario
         this.restApi.getUsuario(this.user.value, this.password.value).then(data => {
             this.usuario = data;
-            this.validaringreso(this.usuario[0].nivel.descripcion);
+            //console.log(this.usuario['nivel'].descripcion)
+            //this.validaringreso(this.usuario[0].nivel.descripcion);
+            if (this.usuario) {
+                console.log(this.usuario);
+                this.validaringreso(this.usuario['nivel'].descripcion);
+            } else {
+                console.log('Usuario no encontrado');
+                this.passIncorrecto();
+            }
         });
-
     }
 
-    validaringreso(NivelUser) {
+    //Ahora la funcion es asincrona
+    async validaringreso(NivelUser) {
+        let user: {};
         console.log("Usuario correcto");
-        if (NivelUser == "Admin") {
+        if (NivelUser === "Admin") {
             console.log("Usuario Administrador");
             this.navCtrl.push(AdminPage);
-        } else {
-            console.log("Usuario Tutor " + this.usuario[0].tutor.Apellidos_Nombres);
-            this.navCtrl.push(Vista_TutorPage, { tutor: this.usuario[0].tutor, hijos: this.usuario[0].tutor.hijos });
+        } else if (NivelUser === "Tutor") {
+            await this.restApi.getTutorPorIdUsuario(this.usuario['id']).then(data => {
+                //Seteo mi variable con el tutor encontrado
+                user = data;
+            });
+            console.log("Usuario Tutor " + user);
+            this.navCtrl.push(Vista_TutorPage, { tutor: user, hijos: user['hijos'] }/* , { tutor: this.usuario['tutor'], hijos: this.usuario['tutor'].hijos } */);
         }
     }
 
-    //No se utiliza
-    //Comprueba y devuelve un usuario por usuario y clave
-    /*
-    usuarioYClaveCorrecta() {
-        for (const key in this.usuarios) {
-            console.log('Key ' + key);
-            console.log('Property ' + this.usuarios.hasOwnProperty(key));
-            if (this.usuarios.hasOwnProperty(key)) {
-                const element = this.usuarios[key];
-                if (Object.is(this.user.value, element.usuario) && Object.is(this.password.value, element.clave)) {
-                    return element;
-                }
-            }
-        }
-        
-        return null;
-*/
- }
+}
 
 

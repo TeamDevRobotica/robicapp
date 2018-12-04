@@ -5,8 +5,8 @@
   },
   "proxies": [
     {
-      "path": "*/users",
-      "proxyUrl": "http://40.0.0.211:3000/users"
+      "path": "*/",
+      "proxyUrl": "http://educaciondigitalmisiones.com:50000"
     }
   ],
   "type": "ionic-angular"

@@ -11,7 +11,7 @@ export class NotificacionesPage {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.hijo = this.navParams.get('hijo');
     console.log("imprime notif")
-    console.log(this.hijo.descrpcion)
+    //console.log(this.hijo.descrpcion)
   }
-  
+
 }

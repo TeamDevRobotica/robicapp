@@ -14,15 +14,30 @@
 <ion-content>
   <form [formGroup]="miFormulario" (ngSubmit)="guardar()">
     <ion-list>
+      <!-- NIVEL -->
+      <ion-item>
+        <ion-icon name="alarm" item-start></ion-icon>
+        <ion-label stacked>Tipo:</ion-label>
+        <ion-select formControlName="nivel" cancelText="Cancelar" okText="Ok">
+          <ion-option *ngFor="let nivel of niveles" [value]="nivel.id">{{nivel.descripcion}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <div class="validation-errors">
+        <ng-container *ngFor="let validation of validation_messages.nivel">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('nivel').hasError(validation.type) && (miFormulario.get('nivel').dirty || miFormulario.get('nivel').touched)">
+            {{ validation.message }}
+          </div>
+        </ng-container>
+      </div>
       <!-- APELLIDO Y NOMBRE -->
       <ion-item>
         <ion-icon name="person" item-start></ion-icon>
         <ion-label stacked>Apellido y Nombre:</ion-label>
-        <ion-input formControlName="apellidoYNombre" type="text" placeholder="Apellido Y Nombre"></ion-input>
+        <ion-input formControlName="nombreYApellido" type="text" placeholder="Apellido Y Nombre"></ion-input>
       </ion-item>
       <div class="validation-errors" style="padding-left:100px">
-        <ng-container *ngFor="let validation of validation_messages.apellidoYNombre">
-          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('apellidoYNombre').hasError(validation.type) && (miFormulario.get('apellidoYNombre').dirty || miFormulario.get('apellidoYNombre').touched)">
+        <ng-container *ngFor="let validation of validation_messages.nombreYApellido">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('nombreYApellido').hasError(validation.type) && (miFormulario.get('nombreYApellido').dirty || miFormulario.get('nombreYApellido').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
@@ -31,7 +46,7 @@
       <ion-item>
         <ion-icon name="person" item-start></ion-icon>
         <ion-label stacked>DNI:</ion-label>
-        <ion-input formControlName="dni" type="text" placeholder="DNI"></ion-input>
+        <ion-input formControlName="dni" type="number" placeholder="DNI"></ion-input>
       </ion-item>
       <div class="validation-errors" style="padding-left:100px">
         <ng-container *ngFor="let validation of validation_messages.dni">
@@ -44,34 +59,44 @@
       <ion-item>
         <ion-icon name="person" item-start></ion-icon>
         <ion-label stacked>Usuario:</ion-label>
-        <ion-input formControlName="usuario" type="text" placeholder="Usuario"></ion-input>
+        <ion-input formControlName="nombreUsuario" type="text" placeholder="Usuario"></ion-input>
       </ion-item>
       <div class="validation-errors" style="padding-left:100px">
-        <ng-container *ngFor="let validation of validation_messages.usuario">
-          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('usuario').hasError(validation.type) && (miFormulario.get('usuario').dirty || miFormulario.get('usuario').touched)">
+        <ng-container *ngFor="let validation of validation_messages.nombreUsuario">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('nombreUsuario').hasError(validation.type) && (miFormulario.get('nombreUsuario').dirty || miFormulario.get('nombreUsuario').touched)">
             {{ validation.message }}
           </div>
         </ng-container>
       </div>
       <!-- PASSWORD -->
-      <div formGroupName="passwordRetry">
-        <ion-item>
-          <ion-icon name="eye" item-start></ion-icon>
-          <ion-label stacked>Contraseña:</ion-label>
-          <ion-input formControlName="password" type="password" placeholder="Contraseña"></ion-input>
-        </ion-item>
-        <div style="color: red; padding-top: 0.2rem" *ngIf="miFormulario.hasError('required', 'password')"> </div>
-        <ion-item>
-          <ion-icon name="eye" item-start></ion-icon>
-          <ion-label stacked>Confirmar contraseña:</ion-label>
-          <ion-input formControlName="passwordConfirmation" type="password" placeholder="Confirmar contraseña"></ion-input>
-        </ion-item>
-        <div style="color: red; padding-top: 0.2rem" *ngIf="passwordConfirmation != password"> </div>
+      <!-- <div formGroupName="passwordRetry"> -->
+      <ion-item>
+        <ion-icon name="eye" item-start></ion-icon>
+        <ion-label stacked>Contraseña:</ion-label>
+        <ion-input formControlName="claveUsuario" type="password" placeholder="Contraseña"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.claveUsuario">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('claveUsuario').hasError(validation.type) && (miFormulario.get('claveUsuario').dirty || miFormulario.get('claveUsuario').touched)">
+            {{ validation.message }}</div>
+        </ng-container>
       </div>
+      <ion-item>
+        <ion-icon name="eye" item-start></ion-icon>
+        <ion-label stacked>Confirmar contraseña:</ion-label>
+        <ion-input formControlName="confirmarClave" type="password" placeholder="Confirmar contraseña"></ion-input>
+      </ion-item>
+      <div class="validation-errors" style="padding-left:100px">
+        <ng-container *ngFor="let validation of validation_messages.confirmarClave">
+          <div style="color: red; padding-top: 0.2rem" class="alert alert-danger" *ngIf="miFormulario.get('confirmarClave').hasError(validation.type) && (miFormulario.get('confirmarClave').dirty || miFormulario.get('confirmarClave').touched)">
+            {{ validation.message }}</div>
+        </ng-container>
+      </div>
+      <!-- <div style="color: red; padding-top: 0.2rem" *ngIf="passwordConfirmation != password"> </div> -->
+      <!-- </div> -->
     </ion-list>
     <div padding>
-      <button ion-button block type="submit" >Guardar</button>
-      <!-- [disabled]="!miFormulario.valid" -->
+      <button ion-button block type="submit" [disabled]="!miFormulario.valid">Guardar</button>
     </div>
   </form>
 </ion-content>
